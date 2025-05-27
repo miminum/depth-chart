@@ -19,7 +19,6 @@ import { Button, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { bumpSpot } from '../../utils/hepler';
 
-
 export interface IChartProps {
     sport: ISport;
     onSave?: (updatedSport: ISport) => void;
@@ -29,8 +28,8 @@ export interface IChartProps {
 export function Chart(props: IChartProps) {
     const [currentSport, setCurrentSport] = React.useState<ISport>(props.sport);
     const [selectedPosition, setSelectedPosition] = React.useState<string >("");
-    const [selectedSpot, setSelectedSpot] = React.useState<string >("");
-    const [playersName, setPlayersName] = React.useState<string >("");
+    const [selectedSpot, setSelectedSpot] = React.useState<string>("");
+    const [playersName, setPlayersName] = React.useState<string>("");
 
     React.useEffect(() => {
         setCurrentSport(props.sport);
@@ -43,7 +42,7 @@ export function Chart(props: IChartProps) {
         if (!position) return;
     
         const entries: IDepthChartEntry[] = [...(position.depthChartEntries || [])];
-    
+          
         const landingSpot: DepthChartSpot =
           (selectedSpot as DepthChartSpot) ||
           ([...DepthChartSpots]
@@ -60,9 +59,7 @@ export function Chart(props: IChartProps) {
 
                 return;
             }
-
             cascadeBump(next);
-
             bumped.spot = next;
             entries.push(bumped);
         }
@@ -86,18 +83,35 @@ export function Chart(props: IChartProps) {
         props.onSave?.(currentSport);
     };
     
-    const handleDeletePlayer = (positionName: string, spot: DepthChartSpot) => {
+    const handleDeletePlayer = (positionName: string, spotToRemove: DepthChartSpot) => {
         const position = currentSport.positions.find(p => p.name === positionName);
         if (!position) return;
 
-        const entries = position.depthChartEntries || [];
-        const index = entries.findIndex(e => e.spot === spot);
-        if (index >= 0) {
-            entries.splice(index, 1);
-            position.depthChartEntries = entries;
-            setCurrentSport({ ...currentSport });
-            props.onSave?.(currentSport);
-        }
+        const entries = [...(position.depthChartEntries || [])];
+
+        // 3) filter out the one we’re deleting
+        const filtered = entries.filter(e => e.spot !== spotToRemove);
+
+        // 4) figure out the numeric index of the removed spot
+        const removedIdx = DepthChartSpots.indexOf(spotToRemove);
+
+        // 5) bump anyone below that up one slot
+        const bumpedUp = filtered.map(e => {
+            const idx = DepthChartSpots.indexOf(e.spot);
+            // if this entry was *below* the removed spot, move it up one
+            if (idx > removedIdx) {
+            return {
+                ...e,
+                spot: DepthChartSpots[idx - 1],
+            };
+            }
+            return e;
+        });
+
+        // 6) write back and re-render
+        position.depthChartEntries = bumpedUp;
+        setCurrentSport({ ...currentSport });
+        props.onSave?.(currentSport);
     };
 
     return (

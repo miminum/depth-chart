@@ -1,16 +1,16 @@
 
 import React from 'react';
-import './DepthCharts.css';
+import './SportsWrapper.css';
 import { ISport } from '../../models/model'; 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Chart } from '../chart/Chart';
 
-export interface IDepthChartsProps {
+export interface ISportsWrapperProps {
     sportsData: ISport[];
 }
 
-export function DepthCharts(props: IDepthChartsProps) {
+export function SportsWrapper(props: ISportsWrapperProps) {
     const [ sports, setSports ] = React.useState<ISport[]>([]);
     const [ filteredSportId, setFilteredSportId ] = React.useState<string | null>(null);
     
@@ -19,7 +19,7 @@ export function DepthCharts(props: IDepthChartsProps) {
     }, [props.sportsData]);
 
     return (
-        <div className="depthChartsContainer">
+        <div className="SportsWrapperContainer">
             <Stack 
                 className="Stack" 
                 spacing={2} 

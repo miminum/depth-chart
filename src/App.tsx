@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { DepthCharts } from './components/depthCharts/DepthCharts';
+import { SportsWrapper } from './components/sportsWrapper/SportsWrapper';
 import { title } from './utils/const';
 import { sportsData } from './utils/data';
 
@@ -10,7 +10,7 @@ function App() {
       <header className="App-header">
         <h1>{title}</h1>
       </header>
-      <DepthCharts sportsData={sportsData} />
+      <SportsWrapper sportsData={sportsData} />
     </div>
   );
 }

@@ -26,4 +26,3 @@ export const DepthChartSpots = [
   ] as const;
   
 export type DepthChartSpot = typeof DepthChartSpots[number];
-
