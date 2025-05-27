@@ -1,6 +1,6 @@
-import { ISport } from '../models/model'
+import { ISport,IPosition } from '../models/model'
 
-export const sportsData: ISport[] = [
+const sports = [
     {
         id: "1",
         name: "NFL",
@@ -12,3 +12,10 @@ export const sportsData: ISport[] = [
         positions: ["GK", "RB", "LB", "CDM", "CAM", "RW", "LW", "SS", "ST"]
     }
 ];
+
+const mapToIPositions = (position: string): IPosition => ({ name: position });
+
+export const sportsData: ISport[] = sports.map(sport => ({
+    ...sport,
+    positions: sport.positions.map(mapToIPositions)
+}))

@@ -1,21 +1,16 @@
 export interface ISport {
     id: string;
     name: string;
-    positions: string[];
+    positions: IPosition[];
 }
 
 export interface IPlayer {
     name: string;
-    positions: string;
 }
 
-export interface IDepthChart {
-    sport: ISport;
-    team?: string; // Can be implemented in the future
-    position: {
-        name: string;
-        depth: IDepthChartEntry[]
-    }
+export interface IPosition {
+    name: string;
+    depthChartEntries?: IDepthChartEntry[];
 }
 
 export interface IDepthChartEntry {
