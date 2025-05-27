@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {title}
+        <h1>{title}</h1>
       </header>
       <DepthCharts sportsData={sportsData} />
     </div>

@@ -14,14 +14,16 @@ export interface IPosition {
 }
 
 export interface IDepthChartEntry {
-    spot: IDepthChartSpots;
+    spot: DepthChartSpot;
     player: IPlayer;
 }
 
-export enum IDepthChartSpots {
-    Starter = 1,
-    Second = 2,
-    Third = 3,
-    Fourth = 4,
-    NotSelected = 5
-}
+export const DepthChartSpots = [
+    "Starter",
+    "Second",
+    "Third",
+    "Fourth",
+  ] as const;
+  
+export type DepthChartSpot = typeof DepthChartSpots[number];
+
